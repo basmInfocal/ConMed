@@ -1,6 +1,6 @@
 CREATE TABLE
-  Categoria (
-    CategoriaID INT IDENTITY (1, 1) PRIMARY KEY,
+  Categorias (
+    CategoriaID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     Nombre VARCHAR(64),
     Descripcion VARCHAR(256),
     FechaRegistro DATETIME DEFAULT GETDATE (),
@@ -8,12 +8,12 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Personas (
-    PersonaID INT IDENTITY (1, 1) PRIMARY KEY,
-    UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
+    PersonaID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
+    UUID UNIQUEIDENTIFIER DEFAULT NEWID () NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
     DOB DATE, -- Fecha de nacimiento
@@ -44,11 +44,11 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Hogares (
-    HogarID INT IDENTITY (1, 1) PRIMARY KEY,
+    HogarID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     GoogleMaps VARCHAR(256),
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
@@ -65,12 +65,12 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Usuarios (
-    UsuarioID INT IDENTITY (1, 1) PRIMARY KEY,
-    UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
+    UsuarioID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
+    UUID UNIQUEIDENTIFIER DEFAULT NEWID () NOT NULL,
     PersonaID INT,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
@@ -80,17 +80,15 @@ CREATE TABLE
     InformacionAdicional VARCHAR(128),
     FuenteUsuario VARCHAR(128), -- Fuente de información del usuario (por ejemplo, "LDAP", "Base de datos interna", etc.)
     Titulo VARCHAR(64),
-    Especialidad VARCHAR(64),
-    CorreoElectronico VARCHAR(128),
     Enlace VARCHAR(128),
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Contactos (
-    ContactoID INT IDENTITY (1, 1) PRIMARY KEY,
+    ContactoID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     PersonaID INT,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
@@ -98,11 +96,11 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Interpretes (
-    InterpreteID INT IDENTITY (1, 1) PRIMARY KEY,
+    InterpreteID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     PersonaID INT,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
@@ -110,11 +108,11 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Referidos (
-    ReferidoID INT IDENTITY (1, 1) PRIMARY KEY,
+    ReferidoID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     PersonaID INT,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
@@ -122,11 +120,11 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Pacientes (
-    PacienteID INT IDENTITY (1, 1) PRIMARY KEY,
+    PacienteID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
     PubID UNIQUEIDENTIFIER DEFAULT NEWID (), -- Identificador público para compartir con otros sistemas
     DoctorID INT,
@@ -144,12 +142,12 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Doctores (
-    DoctorID INT IDENTITY (1, 1) PRIMARY KEY,
-    UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
+    DoctorID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
+    UUID UNIQUEIDENTIFIER DEFAULT NEWID () NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE (),
     FechaActualizacion DATETIME DEFAULT GETDATE (),
     UsuarioID INT,
@@ -158,19 +156,15 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   HistoriasClinicas (
-    HistoriaClinicaID INT IDENTITY (1, 1) PRIMARY KEY,
-    DoctorID INT,
-    AtencionID INT,
+    HistoriaClinicaID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     PacienteID INT,
     ContactoID INT,
     ReferidoID INT,
-    ConsultorioID INT,
-    Fecha DATETIME,
-    Hora TIME,
+    FechaHora DATETIME,
     -- Datos de la historia clínica
     Vacunas VARCHAR(256),
     Inmunizaciones VARCHAR(256),
@@ -181,13 +175,12 @@ CREATE TABLE
     AntecedentesQuirurgicos VARCHAR(256),
     OtrosAntecedentes VARCHAR(256),
     -- Datos de la evaluación médica
-    PresionArterial VARCHAR(16),
-    FrecuenciaCardiaca VARCHAR(16),
-    FrecuenciaRespiratoria VARCHAR(16),
-    Temperatura VARCHAR(16),
-    Peso VARCHAR(16),
-    Talla VARCHAR(16),
-    IMC VARCHAR(16),
+    PresionArterial NUMERIC(8, 2),
+    FrecuenciaCardiaca NUMERIC(8, 2),
+    FrecuenciaRespiratoria NUMERIC(8, 2),
+    Temperatura NUMERIC(8, 2),
+    Peso NUMERIC(8, 2),
+    Talla NUMERIC(8, 2),
     -- Datos Finales
     DiagnosticoPresuntivo VARCHAR(256),
     DiagnosticoDefinitivo VARCHAR(256),
@@ -198,12 +191,13 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Consultas (
-    ConsultaID INT IDENTITY (1, 1) PRIMARY KEY,
-    UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
+    ConsultaID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
+    UUID UNIQUEIDENTIFIER DEFAULT NEWID () NOT NULL,
+    CategoriaID INT,
     ConsultorioID INT,
     PacienteID INT,
     CitaID INT,
@@ -211,8 +205,7 @@ CREATE TABLE
     HistoriaClinicaID INT,
     PrescripcionID INT,
     InterpreteID INT,
-    Fecha DATETIME,
-    Hora TIME,
+    FechaHora DATETIME,
     RazonPaciente VARCHAR(256),
     NumeroConsulta VARCHAR(16),
     MotivoConsulta VARCHAR(256),
@@ -226,12 +219,12 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Prescripciones (
-    PrescripcionID INT IDENTITY (1, 1) PRIMARY KEY,
-    UUID UNIQUEIDENTIFIER DEFAULT NEWID (),
+    PrescripcionID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
+    UUID UNIQUEIDENTIFIER DEFAULT NEWID () NOT NULL,
     PacienteID INT,
     UsuarioID INT,
     DoctorID INT,
@@ -243,7 +236,7 @@ CREATE TABLE
     RxNorm VARCHAR(256),
     FormaFarmaceutica VARCHAR(256),
     Dosis VARCHAR(256),
-    Cantidad VARCHAR(256),
+    Cantidad INT,
     Concentracion VARCHAR(256),
     ViaAdministracion VARCHAR(256),
     FrecuenciaAdministracion VARCHAR(256),
@@ -251,7 +244,7 @@ CREATE TABLE
     SustitucionAutorizada BIT,
     SustitucionNombre VARCHAR(256),
     Resurtido BIT,
-    CantidadResurtido VARCHAR(256),
+    CantidadResurtido INT,
     FechaPrescripcionEfectiva DATETIME,
     Instrucciones VARCHAR(256),
     Observaciones VARCHAR(256),
@@ -271,11 +264,11 @@ CREATE TABLE
     Estado BIT,
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
 
 CREATE TABLE
   Citas (
-    CitaID INT IDENTITY (1, 1) PRIMARY KEY,
+    CitaID INT IDENTITY (1, 1) PRIMARY KEY NOT NULL,
     DoctorID INT,
     PacienteID INT,
     ConsultorioID INT,
@@ -293,12 +286,9 @@ CREATE TABLE
     Tema VARCHAR(256), -- Tema de la cita
     FechaInicio DATETIME,
     FechaFin DATETIME,
-    Duracion INT, -- Duración de la cita en segundos
     Recurrencia VARCHAR(64), -- Por ejemplo: "Diaria", "Semanal", "Mensual", etc.
     ExcepcionRecurrencia VARCHAR(256), -- Excepciones a la recurrencia, si aplica
     FrecuenciaRepeticion VARCHAR(64), -- Por ejemplo: "Cada 2 semanas", "Cada mes", etc.
-    FechaProgramada DATETIME,
-    HoraProgramada TIME,
     Evento VARCHAR(256), -- Evento asociado a la cita, si aplica
     CelularContacto VARCHAR(16), -- Número de celular del contacto para la cita
     CostoEstimado DECIMAL(10, 2), -- Costo estimado de la cita
@@ -312,7 +302,7 @@ CREATE TABLE
     AutorRegistro VARCHAR(64), -- Usuario que registró la cita
     FechaActualizacion DATETIME DEFAULT GETDATE (),
     AutorActualizacion VARCHAR(64), -- Usuario que actualizó la cita
-    Estado BIT, -- Por ejemplo: "Programada", "Cancelada", "Completada"
+    Estado VARCHAR(64), -- Por ejemplo: "Programada", "Cancelada", "Completada"
     RazonEstado VARCHAR(128),
     FechaEstado DATETIME DEFAULT GETDATE (),
-  );
+  )
